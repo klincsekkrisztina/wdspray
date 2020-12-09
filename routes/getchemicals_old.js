@@ -32,71 +32,76 @@ router.get('/', function (req, res) {
 
 function makeHtmlContent(chemicals) {
 	let body = ``;
-	let propertyList = ""; 
-	let plantList = "";
-	let componentList = "";
 	
 	//Iterate chamicals and map to html structure 
 	chemicals.map((chemical) => {
+		body+= `<h1>${chemical.title}</h1>
+							<div>
+								<ul>`;
 
-		//map the Properties array to html structure, 						
-		propertyList = "";
+		//map the Properties array to html structure						
+		str = "";
 		chemical.properties.map((property) => {
-			propertyList += `<li>${property}</li>`
-		});
+			str += `<li>${property}</li>`
+		})
+		body += str
+		str = "";
+
+		//add some static html structure
+		body += 	`</ul>
+						</div>
+						<div>
+							<table>
+								<tr>
+									<th>Növényi kultúra</th>
+									<th>Dózis</th>
+									<th>Mértékegység</th>
+									<th>Felhasználási javaslat</th>
+									<th>ÉVI (nap)</th>
+								</tr>`;
+
 
 		//map the Plants array to html structure
 		chemical.plants.map((plant) => {
 			values = Object.values(plant);
-			plantTds = "<tr>"
+			tds = "<tr>"
 			for (value of values) {
-				plantTds += "<td>" + value + "</td>";
+				tds += "<td>" + value + "</td>";
 			}
-			plantTds += "</tr>"
-			plantList += plantTds;
+			tds += "</tr>"
+			str += tds;
 		})
+		body += str
+		str = "";
 
+
+		//add further static html structure
+		body += `	</table>
+						</div>
+						<div>
+							<table>
+								<tr>
+									<th>Hatóanyag</th>
+									<th>Koncentráció (g/l)</th>
+									<th>Koncentráció (m/m%)</th>
+								</tr>`;
+
+		
 		//map the Components array to html structure
 		chemical.components.map((component) => {
 			values = Object.values(component);
-			componentTds = "<tr>"
+			tds = "<tr>"
 			for (value of values) {
-				componentTds += "<td>" + value + "</td>";
+				tds += "<td>" + value + "</td>";
 			}
-			componentTds += "</tr>"
-			componentList += componentTds;
+			tds += "</tr>"
+			str += tds;
 		})
+		body += str
 
-
-
-		body+= `<h1>${chemical.title}</h1>
-							<div>
-								<ul>
-								${propertyList}
-								</ul>
-							</div>
-							<div>
-								<table>
-									<tr>
-										<th>Növényi kultúra</th>
-										<th>Dózis</th>
-										<th>Mértékegység</th>
-										<th>Felhasználási javaslat</th>
-										<th>ÉVI (nap)</th>
-									</tr>
-									${plantList}
-								</table>
-							</div>
-							<div>
-								<table>
-									<tr>
-										<th>Hatóanyag</th>
-										<th>Koncentráció (g/l)</th>
-										<th>Koncentráció (m/m%)</th>
-									</tr>
-									${componentList}
-								</table>
-							</div>`;
+		//add further static html structure
+		body += `	</table>
+						</div>`
 
 
 		//Create HTML file
@@ -115,8 +120,6 @@ function makeHtmlContent(chemicals) {
 		})
 
 		str = "";
-		propertyList = "";
-		plantList = "";
 		body = "";
 		
 	});
