@@ -79,6 +79,7 @@ function makeHtmlContent(chemicals) {
 								<table>
 									<tr>
 										<th>Növényi kultúra</th>
+										<th>Károsító</th>
 										<th>Dózis</th>
 										<th>Mértékegység</th>
 										<th>Felhasználási javaslat</th>
