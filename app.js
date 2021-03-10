@@ -4,10 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var getRouter = require('./routes/get');
+var postRouter = require('./routes/post');
 
 
 // var getchemicalsRouter = require('./routes/getchemicals');
@@ -16,6 +18,11 @@ var getRouter = require('./routes/get');
 
 
 var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://klincsekkrisztina:insomnia@cluster0.lac4v.mongodb.net/<dbname>?retryWrites=true&w=majority";
@@ -35,9 +42,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/get', getRouter);
+app.use('/post', postRouter);
 
 // app.use('/getchemicals', getchemicalsRouter);
 // app.use('/getjson', getjsonRouter);

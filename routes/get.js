@@ -21,7 +21,7 @@ router.get('/chemicallist', function (req, res) {
       .find()
       .toArray()
       .then(chemicals => {
-        console.log(chemicals);
+        // console.log(chemicals);
         res.send(chemicals);
       });
   });
