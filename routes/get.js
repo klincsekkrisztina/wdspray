@@ -35,6 +35,7 @@ router.get('/json', function (req, res, next) {
       .db("wdspray_app")
       .collection("wdspray")
       .find()
+      .project({ _id: 0 })
       .toArray()
       .then(chemicals => {
         makeJsonFiles(chemicals);

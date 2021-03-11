@@ -13,7 +13,7 @@ const client = new MongoClient(uri, {
 });
 
 
-//POST image (base64 encoded string), find document by _id in db and insert string
+//POST image (base64 encoded string), find document by _id in db and ipdate "img" witn base64 string
 
 router.post('/uploadimage', function (req, res, next) {
   const ObjectID = require('mongodb').ObjectID;
