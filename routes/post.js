@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var ObjectId = require('mongodb').ObjectID;
 
 var fs = require('fs')
 // var createHTML = require('create-html')
@@ -13,22 +14,22 @@ const client = new MongoClient(uri, {
 
 
 //POST image (base64 encoded string), find document by _id in db and insert string
+
 router.post('/uploadimage', function (req, res, next) {
+  const ObjectID = require('mongodb').ObjectID;
   client.connect(err => {
     client
       .db("wdspray_app")
       .collection("wdspray")
-      .find({"_id": req._id} )
-      .toArray()
+      .updateOne(
+        { "_id": ObjectID(req.body._id) }, //Filter
+        { $set: {"img": req.body.base64}}  //Update
+        )
       .then(chemical => {
-        console.log(chemical);
-        res.send("ok");
+        res.send(req.body);
       });
   });
 });
-
-
-
 
 
 module.exports = router;
