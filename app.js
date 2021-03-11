@@ -19,9 +19,11 @@ var postRouter = require('./routes/post');
 
 var app = express();
 
-app.use(bodyParser.json());
+app.use( bodyParser.json({limit: '50mb'}) );
 app.use(bodyParser.urlencoded({
-    extended: true
+  limit: '50mb',
+  extended: true,
+  parameterLimit:50000
 }));
 
 const MongoClient = require('mongodb').MongoClient;
@@ -43,10 +45,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+app.all('/', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next()
+  });
 
 
 app.use('/', indexRouter);

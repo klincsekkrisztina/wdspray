@@ -13,7 +13,7 @@ const client = new MongoClient(uri, {
 
 
 //GET chemical list
-router.get('/chemicallist', function (req, res) {
+router.get('/chemicallist', function (req, res, next) {
   client.connect(err => {
     client
       .db("wdspray_app")
@@ -29,7 +29,7 @@ router.get('/chemicallist', function (req, res) {
 
 
 //GET chemicals and create JSON files from all
-router.get('/json', function (req, res) {
+router.get('/json', function (req, res, next) {
   client.connect(err => {
     client
       .db("wdspray_app")
